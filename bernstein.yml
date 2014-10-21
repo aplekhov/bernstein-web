@@ -1,0 +1,9 @@
+:osc_client:
+  :port: 9090
+  :host: '127.0.0.1'
+:osc_server:
+  :port: 9000
+  :host: '127.0.0.1'
+  :require_awks: true
+:redis_queue:
+  :key_expiry: 300
