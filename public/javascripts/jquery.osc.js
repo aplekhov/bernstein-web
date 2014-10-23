@@ -1,6 +1,6 @@
-if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true, LIB:{}};
+if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true};
 
-(function($,BERNSTEIN) {
+(function($) {
 
   var _debug = function(debuggingInfo){
     if(BERNSTEIN.DEBUG == true && window.console){
@@ -11,8 +11,8 @@ if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true, LIB:{}};
     }
   };
 
-  BERNSTEIN.sendMessage = function(address, params, onSuccess, settings){
-    _debug("in sendRequest");
+  $.sendOSCMessage = $.sendOSCMessage || function(address, params, onSuccess, settings){
+    _debug("in sendOSCMessage");
     var config = {'requestURL':'/osc/new_message', 
                   'statusURL':'/osc/status', 
                   'onError': function(error){ _debug(error);},
@@ -75,4 +75,4 @@ if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true, LIB:{}};
     });
     return null;
   };
-})(jQuery, BERNSTEIN);
+})(jQuery);

@@ -9,7 +9,7 @@
 
     %script{:src => "/javascripts/jquery-1.11.1.min.js", :type => "text/javascript"}  
     %script{:src => "/javascripts/bootstrap.min.js", :type => "text/javascript"}
-    %script{:src => "/javascripts/bernstein.js", :type => "text/javascript"}
+    %script{:src => "/javascripts/jquery.osc.js", :type => "text/javascript"}
 
 
     %link{:rel => "stylesheet", :href => "/css/bootstrap.min.css", :media => "screen"}
@@ -28,6 +28,18 @@
         .span2.status Status:
         %img.spinner{:src => 'spinner.gif', :style => 'display:none'}
 
+      %table.table.table-bordered.message-log
+        %caption Sent Messages:
+        %thead
+          %tr
+            %td Time
+            %td Message
+        %tbody
+          %tr.info.template{:style => 'display:none'}
+            %td.time
+            %td.message
+
+
 
   :javascript 
     $('form.osc').submit(function(event){
@@ -35,12 +47,19 @@
         $(this).find(':input').attr("disabled","disabled");
         $(this).find('.spinner').show();
         $(this).find('.status').text('Status:');
-        var message = $(this).find(":input[name='message_string']").val().split(' ');
-        BERNSTEIN.sendMessage(message.shift(),message, function(){
+        var origMessage = $(this).find(":input[name='message_string']").val();
+        var message = origMessage.split(' ');
+        $.sendOSCMessage(message.shift(),message, function(){
           var form = $(this);
           form.find(':input').attr("disabled",false);
           form.find('.status').addClass('text-success').text('Status: Success!');
           form.find('.spinner').hide();
+          var newRow = $('tr.template').clone().removeClass('template');
+          newRow.find('.time').text((new Date()).toTimeString());
+          newRow.find('.message').text(origMessage);
+          $('.message-log tbody').append(newRow);
+          newRow.fadeIn();
+          $(this).find(":input[name='message_string']").val('');
           },
           {
             onError: function(error){
