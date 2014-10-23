@@ -1,6 +1,4 @@
 require "sinatra/json"
-
-$:.unshift( File.join( File.dirname( __FILE__), '..', '..', 'bernstein', 'lib' ) )
 require 'bernstein'
 
 module BernsteinWeb
