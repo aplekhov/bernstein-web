@@ -49,7 +49,7 @@ if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true};
       }
 
       _debug('checking status, #' + statusChecks);
-      $.getJSON(config.statusURL, {message_id: requestId}, function(responseData){
+      $.getJSON(config.statusURL, {osc_msg_id: requestId}, function(responseData){
           _debug(responseData);
           var status = responseData.status;
           statusChecks = statusChecks + 1;
@@ -65,7 +65,19 @@ if(typeof(BERNSTEIN) == 'undefined') var BERNSTEIN = {DEBUG:true};
     };
 
     _debug("making request");
-    var data = {message_address: address, message_params: params};
+    var typeCharacter = null;
+    for (var i = 0; i < params.length; i++) { 
+      switch(typeof(params[i])){
+        // all numbers are treated as floats, no support for integers yet
+        case 'number': 
+          typeCharacter = "f";
+          break;
+        case 'string': 
+          typeCharacter = "s";
+      }
+      params[i] = typeCharacter + params[i];
+    }
+    var data = {osc_msg_address: address, osc_msg_params: params};
     $.post(config.requestURL, data, function(responseData){
           _debug(responseData);
         requestId = responseData.id;

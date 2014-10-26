@@ -5,7 +5,7 @@ $:.unshift( File.join( File.dirname( __FILE__), 'lib') )
 require 'bernstein_web'
 
 class WebServer < Sinatra::Application
-  include BernsteinWeb
+  include BernsteinWeb::Sinatra
 
   get '/' do
     haml :index
